@@ -8,10 +8,14 @@ namespace HelloWorld
     {
         private Item[] _inventory;
         private Item _currentWeapon;
+        private Item _empty;
 
         public Player() : base()
         {
             _inventory = new Item[3];
+            _empty.name = "empty";
+            _empty.type = "none";
+            _empty.statBoost = 0;
         }
 
         public Player(string nameVal,int healthVal,int damageVal,int inventorySize) : base(nameVal,healthVal,damageVal)

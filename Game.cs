@@ -17,9 +17,9 @@ namespace HelloWorld
         private Item _sword;
         private Item _dagger;
         private Item _nuke;
-        private Item _cherrybomb;
+        private Item _cherryBomb;
         private Item _bow;
-        private Item _crossbow;
+        private Item _crossBow;
         private Item _medevilShield;
         private Item _modernSheild;
         private Item _poision;
@@ -239,9 +239,37 @@ namespace HelloWorld
             Console.WriteLine("starting with basic stats boost per item");
         }
         //gives the player the option to select a basic loadout
-        public void SelectLoadout()
+        public void SelectLoadout(Player player)
         {
-             
+            Console.Clear();
+            Console.WriteLine("Loadout 1: ");
+            Console.WriteLine(_sword.name);
+            Console.WriteLine(_cherryBomb.name);
+            Console.WriteLine(_dagger.name);
+
+            Console.WriteLine("\nLoadout 2: ");
+            Console.WriteLine(_bow.name);
+            Console.WriteLine(_nuke.name);
+            Console.WriteLine(_crossBow.name);
+            Console.WriteLine();
+            char input;
+            GetInput(out input, "loadout 1", "loadout 2", "choose your weapon!");
+            if (input == '1')
+            {
+                player.AddItemToInv(_sword, 0);
+                player.AddItemToInv(_cherryBomb, 1);
+                player.AddItemToInv(_dagger, 2);
+            }
+            else if (input == '2')
+            {
+                player.AddItemToInv(_bow, 0);
+                player.AddItemToInv(_nuke, 1);
+                player.AddItemToInv(_crossBow, 2);
+            }
+            Console.WriteLine("player " + player.GetName());
+            player.PrintStats();
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //Performed once when the game begins
