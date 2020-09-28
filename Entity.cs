@@ -8,7 +8,7 @@ namespace HelloWorld
     {
         private string _name;
         private int _health;
-        private int _damage;
+        protected int _damage;
 
         public Entity()
         {
