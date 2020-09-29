@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace HelloWorld
@@ -88,6 +89,15 @@ namespace HelloWorld
             base.PrintStats();
             Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
             Console.WriteLine();
+        }
+        public override void Save(StreamWriter writer)
+        {
+            base.Save(writer);
+        }
+        public override bool load(StreamReader reader)
+        {
+            return base.load(reader);
+            
         }
     }
 }

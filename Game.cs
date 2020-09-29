@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace HelloWorld
@@ -21,7 +22,7 @@ namespace HelloWorld
         private Item _bow;
         private Item _crossBow;
         private Item _medevilShield;
-        private Item _modernSheild;
+        private Item _modernShield;
         private Item _poision;
         private Item _lightning;
 
@@ -164,25 +165,25 @@ namespace HelloWorld
             _nuke.type = "weapon";
             _nuke.statBoost = 10;
 
-            _cherrybomb.name = "cherrybomb";
-            _cherrybomb.type = "weapon";
-            _cherrybomb.statBoost = 10;
+            _cherryBomb.name = "cherrybomb";
+            _cherryBomb.type = "weapon";
+            _cherryBomb.statBoost = 10;
 
             _bow.name = "bow";
             _bow.type = "weapon";
             _bow.statBoost = 10;
 
-            _crossbow.name = "crossbow";
-            _crossbow.type = "weapon";
-            _crossbow.statBoost = 10;
+            _crossBow.name = "crossbow";
+            _crossBow.type = "weapon";
+            _crossBow.statBoost = 10;
 
             _medevilShield.name = "old shield";
             _medevilShield.type = "shield";
             _medevilShield.statBoost = 10;
 
-            _modernSheild.name = "blocker";
-            _modernSheild.type = "shield";
-            _modernSheild.statBoost = 10;
+            _modernShield.name = "blocker";
+            _modernShield.type = "shield";
+            _modernShield.statBoost = 10;
 
             _poision.name = "poision";
             _poision.type = "potion";
@@ -243,33 +244,66 @@ namespace HelloWorld
         {
             Console.Clear();
             Console.WriteLine("Loadout 1: ");
-            Console.WriteLine(_sword.name);
-            Console.WriteLine(_cherryBomb.name);
-            Console.WriteLine(_dagger.name);
-
-            Console.WriteLine("\nLoadout 2: ");
-            Console.WriteLine(_bow.name);
-            Console.WriteLine(_nuke.name);
             Console.WriteLine(_crossBow.name);
+            Console.WriteLine(_medevilShield.name);
+            Console.WriteLine(_poision.name);
             Console.WriteLine();
+            Console.WriteLine("Loadout 2: ");
+            Console.WriteLine(_bow.name);
+            Console.WriteLine(_modernShield.name);
+            Console.WriteLine(_lightning);
+            Console.WriteLine();
+            Console.WriteLine("Loadout 3: ");
+            Console.WriteLine(_sword.name);
+            Console.WriteLine(_medevilShield.name);
+            Console.WriteLine(_cherryBomb.name);
+            Console.WriteLine();
+            Console.WriteLine("Loadout 4:");
+            Console.WriteLine(_dagger.name);
+            Console.WriteLine(_modernShield.name);
+            Console.WriteLine(_nuke.name);
             char input;
-            GetInput(out input, "loadout 1", "loadout 2", "choose your weapon!");
+            GetInput(out input, "loadout 1", "loadout 2","loadout 3","loadout 4", "choose your weapon!");
             if (input == '1')
             {
-                player.AddItemToInv(_sword, 0);
-                player.AddItemToInv(_cherryBomb, 1);
-                player.AddItemToInv(_dagger, 2);
+                player.AddItemToInv(_crossBow, 0);
+                player.AddItemToInv(_medevilShield, 1);
+                player.AddItemToInv(_poision, 2);
             }
             else if (input == '2')
             {
                 player.AddItemToInv(_bow, 0);
-                player.AddItemToInv(_nuke, 1);
-                player.AddItemToInv(_crossBow, 2);
+                player.AddItemToInv(_modernShield, 1);
+                player.AddItemToInv(_lightning, 2);
+            }
+            else if (input == '3')
+            {
+                player.AddItemToInv(_sword, 0);
+                player.AddItemToInv(_medevilShield, 1);
+                player.AddItemToInv(_cherryBomb, 2);
+            }
+            else if (input == '4')
+            {
+                player.AddItemToInv(_dagger, 0);
+                player.AddItemToInv(_modernShield, 1);
+                player.AddItemToInv(_nuke, 2);
             }
             Console.WriteLine("player " + player.GetName());
             player.PrintStats();
             Console.ReadKey();
             Console.Clear();
+        }
+        public void Save()
+        {
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            _player1.Save(writer);
+            writer.Close();
+        }
+        public void Load()
+        {
+            StreamReader reader = new StreamReader("SaveData.txt");
+            _player1.load(reader);
+            reader.Close();
         }
 
         //Performed once when the game begins
