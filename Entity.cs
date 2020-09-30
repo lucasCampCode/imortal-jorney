@@ -11,6 +11,7 @@ namespace HelloWorld
         private int _health;
         protected int _gold;
         protected int _damage;
+        protected Item _currentWeapon;
 
 
         public Entity()
@@ -99,6 +100,11 @@ namespace HelloWorld
             _health = health;
             _gold = gold;
             return true;
+        }
+
+        public string GetWeaponType()
+        {
+            return _currentWeapon.type;
         }
     }
 }

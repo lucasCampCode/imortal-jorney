@@ -8,7 +8,7 @@ namespace HelloWorld
     class Player : Entity
     {
         private Item[] _inventory;
-        private Item _currentWeapon;
+        
         private Item _empty;
 
         public Player() : base()
@@ -41,6 +41,8 @@ namespace HelloWorld
         {
             return _inventory;
         }
+
+        
 
         public bool contains(int index)
         {

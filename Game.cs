@@ -17,6 +17,7 @@ namespace HelloWorld
     {
         private bool _gameOver = false;
         private Entity _player1;
+        private Entity _enemy;
         private Item _sword;
         private Item _dagger;
         private Item _nuke;
@@ -216,6 +217,12 @@ namespace HelloWorld
             _lightning.level = 1;
         }
 
+        public Entity GenEnemy()
+        {
+
+            return _enemy = new Entity();
+        }
+
         //give user instructions 
         public void Intro()
         {
@@ -268,10 +275,16 @@ namespace HelloWorld
             Console.WriteLine("you get to select a loadout that has three classes of items");
             Console.WriteLine("potion/weapon/shield");
             Console.WriteLine("starting with basic stats boost per item");
+            Battle(GenEnemy());
         }
 
         public void Battle(Entity enemy)
         {
+            Console.WriteLine("you spot an enemy!");
+            if ()
+            {
+
+            }
             while(_player1.IsAlive() && enemy.IsAlive())
             {
 
