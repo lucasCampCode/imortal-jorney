@@ -18,8 +18,15 @@ namespace HelloWorld
         private readonly Random rand = new Random();
 
         private bool _gameOver = false;
-        private Entity _player1;
+        private Player _player1;
         private Entity _enemy;
+        private Shop _potionShop;
+        private Shop _weaponShop;
+        private Shop _shieldShop;
+        private Item[] _potionInv;
+        private Item[] _weaponInv;
+        private Item[] _shieldInv;
+        private Item _empty;
         private Item _sword;
         private Item _dagger;
         private Item _nuke;
@@ -30,6 +37,8 @@ namespace HelloWorld
         private Item _modernShield;
         private Item _poision;
         private Item _lightning;
+        private float _level;
+        public float percentange;
 
         //Run the game
         public void Run()
@@ -163,6 +172,12 @@ namespace HelloWorld
 
         public void InitItems()
         {
+            _empty.name = "nothing";
+            _empty.type = "all";
+            _empty.statBoost = 0;
+            _empty.cost = 0;
+            _empty.level = 0;
+
             _sword.name = "sword";
             _sword.type = "weapon";
             _sword.statBoost = 10;
@@ -224,45 +239,187 @@ namespace HelloWorld
             _lightning.level = 1;
         }
 
+        public void InitShops()
+        {
+            _potionInv = new Item[] {_poision, _lightning};
+            _potionShop = new Shop(_potionInv);
+
+            _weaponInv = new Item[] { _sword, _dagger, _nuke, _cherryBomb, _bow , _crossBow};
+            _weaponShop = new Shop(_weaponInv);
+
+            _shieldInv = new Item[] {_medevilShield, _modernShield};
+            _shieldShop = new Shop(_shieldInv);
+        }
+
+        public void PrintInventory(Item[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                Console.WriteLine("item " + (i + 1) + ": " + items[i].name);
+                Console.WriteLine("cost " + (i + 1) + ": " + items[i].cost);
+            }
+        }
+
+        private void OpenShopMenu(Shop shop)
+        {
+            Console.WriteLine("welcome to the shopping district!");
+            Item[] shopInv = shop.Getinventory();
+            PrintInventory(shopInv);
+
+            char input;
+            int shopIndex = 0;
+            int playerIndex = 0;
+
+            GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, "what to buy?");
+            switch (input)
+            {
+                case '1':
+                    {
+                        shopIndex = 0;
+                        break;
+                    }
+                case '2':
+                    {
+                        shopIndex = 1;
+                        break;
+                    }
+                case '3':
+                    {
+                        shopIndex = 2;
+                        break;
+                    }
+                case '4':
+                    {
+                        shopIndex = 3;
+                        break;
+                    }
+            }
+            Console.Clear();
+            
+            Item[] playerInv = _player1.GetInventory();
+            PrintInventory(playerInv);
+            GetInput(out input, playerInv[0].name, playerInv[1].name, playerInv[2].name, playerInv[3].name, "what slot do you want your new weapon in");
+            switch (input)
+            {
+                case '1':
+                    {
+                        playerIndex = 0;
+                        break;
+                    }
+                case '2':
+                    {
+                        playerIndex = 1;
+                        break;
+                    }
+                case '3':
+                    {
+                        playerIndex = 2;
+                        break;
+                    }
+                case '4':
+                    {
+                        playerIndex = 3;
+                        break;
+                    }
+            }
+            shop.Sell(_player1, shopIndex, playerIndex);
+        }
+
         public Entity GenEnemy(int num,Item item)
         {
             switch (num)
             {
-                case '1':
+                case 1:
                     {
                         return _enemy = new Entity("krita", 100, 10, 0, item);
                     }
-                case '2':
+                case 2:
                     {
                         return _enemy = new Entity("shima", 100, 10, 0, item);
                     }
-                case '3':
+                case 3:
                     {
                         return _enemy = new Entity("kirigami", 100, 10, 0, item);
                     }
-                case '4':
+                case 4:
                     {
-                        return _enemy = new Entity("echi", 100, 10, 0, item);
+                        return _enemy = new Entity("sankai", 100, 10, 0, item);
                     }
-                case '5':
+                case 5:
                     {
-                        return _enemy = new Entity("krita", 100, 10, 0, item);
+                        return _enemy = new Entity("Kamaitachi", 100, 30, 0, item);
+                    }
+                default:
+                    {
+                        return _enemy = new Entity();
                     }
             }
-            return _enemy = new Entity();
+            
+        }
+
+        public Item GenItem(int num)
+        {
+            switch (num)
+            {
+                case 1:
+                    {
+                        return _sword;
+                    }
+                case 2:
+                    {
+                        return _dagger;
+                    }
+                case 3:
+                    {
+                        return _nuke;
+                    }
+                case 4:
+                    {
+                        return _cherryBomb;
+                    }
+                case 5:
+                    {
+                        return _bow;
+                    }
+                case 6:
+                    {
+                        return _crossBow;
+                    }
+                case 7:
+                    {
+                        return _medevilShield;
+                    }
+                case 8:
+                    {
+                        return _modernShield;
+                    }
+                case 9:
+                    {
+                        return _poision;
+                    }
+                case 10:
+                    {
+                        return _lightning;
+                    }
+                default:
+                    {
+                        return _empty;
+                    }
+            }
         }
 
         //give user instructions 
         public void Intro()
         {
-            string name;
+            string name = " ";
             char input = ' ';
             Console.WriteLine("Good morning and welcome");
             Console.WriteLine("let's start with introductions!");
             Console.WriteLine("What's your name traveler?");
-            name = Console.ReadLine();
+            
             while(input != '1')
             {
+                name = Console.ReadLine();
                 GetInput(out input, "yes", "change it", "do you want to keep this name");
                 switch (input)
                 {
@@ -274,7 +431,7 @@ namespace HelloWorld
                     case '2':
                         {
                             Console.WriteLine("Alright lets change that name of yours");
-                            break;
+                            continue;
                         }
                 }
             }
@@ -284,16 +441,29 @@ namespace HelloWorld
             GetInput(out input, "tutorial", "new game","continue", "what to do?");
             if(input == '1')
             {
+                _player1 = new Player(name, 100, 10, 10, 3);
+                SelectLoadout(_player1);
                 Tutorial();
             }
             else if(input == '2')
             {
                 _player1 = new Player(name, 100, 10, 10, 3);
-                SelectLoadout((Player)_player1);
+                SelectLoadout(_player1);
             }
             else
             {
-                Load();
+                _enemy = new Entity();
+                _player1 = new Player();
+                if (Load())
+                {
+                    Console.WriteLine("load Successful");
+                }
+                else
+                {
+                    Console.WriteLine("load failed \n starting new game");
+                    _player1 = new Player(name, 100, 10, 10, 3);
+                    SelectLoadout(_player1);
+                }
             }
 
         }
@@ -303,8 +473,12 @@ namespace HelloWorld
             Console.WriteLine("you enter a room bright with an enemy on the other side");
             Console.WriteLine("you get to select a loadout that has three classes of items");
             Console.WriteLine("potion/weapon/shield");
+            Console.WriteLine("potions breaks shields");
+            Console.WriteLine("shields stops weapons");
             Console.WriteLine("starting with basic stats boost per item");
-            Battle(GenEnemy(RandomNumber(1,5)));
+            Console.WriteLine("and weapons are stronger than potions");
+            Console.WriteLine();
+            Battle(GenEnemy(RandomNumber(1,5), GenItem(RandomNumber(1, 10))));
         }
 
         public void Battle(Entity enemy)
@@ -312,21 +486,178 @@ namespace HelloWorld
             Console.WriteLine("you spot an enemy!");
             if (enemy.GetWeapon().type == "potion")
             {
-                Console.WriteLine("the " + enemy.GetName() + "is holding a bottle of" + enemy.GetWeapon().name);
+                Console.WriteLine("the " + enemy.GetName() + " is holding a bottle of " + enemy.GetWeapon().name);
             }
             else
             {
-                Console.WriteLine("the " + enemy.GetName() + "is holding a " + enemy.GetWeapon().name);
+                Console.WriteLine("the " + enemy.GetName() + " is holding a " + enemy.GetWeapon().name);
             }
+            
             while(_player1.IsAlive() && enemy.IsAlive())
             {
+                _player1.PrintStats();
+                enemy.PrintStats();
+                char input;
+                GetInput(out input, "fight","change weapon","save","what do you do?");
+                if(input == '1')
+                {
+                    if (_player1.GetWeapon().type == "weapon" && enemy.GetWeapon().type == "potion")
+                    {
+                        _player1.Attack(enemy);
+                    }
+                    else if (_player1.GetWeapon().type == "shield" && enemy.GetWeapon().type == "weapon")
+                    {
+                        _player1.Attack(enemy);
+                    }
+                    else if (_player1.GetWeapon().type == "potion" && enemy.GetWeapon().type == "shield")
+                    {
+                        _player1.Attack(enemy);
+                    }
+                    else
+                    {
+                        enemy.Attack(_player1);
+                    }
+                }
+                else if(input == '2')
+                {
+                    ChangeWeapons(_player1);
+                }
+                else
+                {
+                    save();
+                }
 
+           
+                Console.Clear();
             }
+            if (_player1.IsAlive() == false)
+            {
+                _gameOver = true;
+            }
+            _level += percentange;
+        }
+
+        public void ChangeWeapons(Player player)
+        {
+            char input;
+            Item[] inventory = player.GetInventory();
+            GetInput(out input, inventory[0].name, inventory[1].name, inventory[2].name, "chose your weapon", true);
+            switch (input)
+            {
+                case '1':
+                    {
+                        player.EquipItem(0);
+                        Console.WriteLine("you equiped " + inventory[0].name);
+                        break;
+                    }
+                case '2':
+                    {
+                        player.EquipItem(1);
+                        Console.WriteLine("you equiped " + inventory[1].name);
+                        break;
+                    }
+                case '3':
+                    {
+                        player.EquipItem(2);
+                        Console.WriteLine("you equiped " + inventory[2].name);
+                        break;
+                    }
+                default:
+                    {
+                        player.UnEquipItem();
+                        Console.WriteLine("you disarmed yourself");
+                        break;
+                    }
+            }
+
+        }
+
+        public void save()
+        {
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            writer.WriteLine(_level);
+            _player1.Save(writer);
+            _enemy.Save(writer);
+            writer.Close();
+        }
+
+        public bool Load()
+        {
+            float level = 0;
+            StreamReader reader = new StreamReader("SaveData.txt");
+            if (float.TryParse(reader.ReadLine(), out level) == false)
+            {
+                return false;
+            }
+            _level = level;
+            _player1.load(reader);
+            _enemy.load(reader);
+            reader.Close();
+            return true;
         }
 
         public void Explore()
         {
-            
+            char input;
+            int num = RandomNumber(1,10);
+            Console.WriteLine("you are found in the forest nothing around you");
+            GetInput(out input,"north","east","south","west", "which way to go?");
+            if(input == '1')
+            {
+                if (num > 9)
+                {
+                    OpenShopMenu(_potionShop);
+                }
+                else if (num > 4)
+                {
+                    Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
+                }
+                else
+                {
+                    Console.WriteLine("you end up finding nothing");
+                }
+            }
+            else if(input == '2')
+            {
+                if (num > 8)
+                {
+                    OpenShopMenu(_shieldShop);
+                }
+                else if (num > 6)
+                {
+                    Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
+                }
+                else
+                {
+                    Console.WriteLine("you end up finding nothing");
+                }
+            }
+            else if(input == '3')
+            {
+                if(num > 7)
+                {
+                    OpenShopMenu(_weaponShop);
+                }
+                else if (num > 3)
+                {
+                    Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
+                }
+                else
+                {
+                    Console.WriteLine("you end up finding nothing");
+                }
+            }
+            else
+            {   
+                if (num > 5)
+                {
+                    Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
+                }
+                else
+                {
+                    Console.WriteLine("you end up finding nothing");
+                }
+            }
         }
 
         //gives the player the option to select a basic loadout
@@ -341,7 +672,7 @@ namespace HelloWorld
             Console.WriteLine("Loadout 2: ");
             Console.WriteLine(_bow.name);
             Console.WriteLine(_modernShield.name);
-            Console.WriteLine(_lightning);
+            Console.WriteLine(_lightning.name);
             Console.WriteLine();
             Console.WriteLine("Loadout 3: ");
             Console.WriteLine(_sword.name);
@@ -384,37 +715,47 @@ namespace HelloWorld
             Console.Clear();
         }
 
-        public void Save()
-        {
-            StreamWriter writer = new StreamWriter("SaveData.txt");
-            _player1.Save(writer);
-            writer.Close();
-        }
-
-        public void Load()
-        {
-            StreamReader reader = new StreamReader("SaveData.txt");
-            _player1.load(reader);
-            reader.Close();
-        }
-
         //Performed once when the game begins
         public void Start()
         {
             InitItems();
             Intro();
+            Console.WriteLine("so you know the basics lets throw you in");
         }
 
         //Repeated until the game ends
         public void Update()
         {
+            char input;
+            GetInput(out input, "continue", "quit", "");
+            if (input == '1')
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Explore();
+                    percentange *= 0.01f;
+                }
+                
+            }
+            else
+            {
+                _gameOver = true;
+            }
+            
             
         }
 
         //Performed once when the game ends
         public void End()
         {
-            
+            if (_player1.IsAlive())
+            {
+                Console.WriteLine("see you agian soon");
+            }
+            else
+            {
+                Console.WriteLine("great you died you lost!");
+            }
         }
     }
 }

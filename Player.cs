@@ -70,7 +70,7 @@ namespace HelloWorld
             _inventory[index] = item;
         }
 
-        public void UnequipItem()
+        public void UnEquipItem()
         {
             _currentWeapon = _empty;
         }
@@ -86,22 +86,56 @@ namespace HelloWorld
             RemoveItem(from);
         }
 
-        public override void PrintStats()
-        {
-            base.PrintStats();
-            Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
-            Console.WriteLine();
-        }
+        //public override void PrintStats()
+        //{
+        //    base.PrintStats();
+        //    Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
+        //    Console.WriteLine();
+        //}
 
         public override void Save(StreamWriter writer)
         {
-            base.Save(writer);
+            writer.WriteLine();
+            writer.WriteLine(GetName());
+            writer.WriteLine(GetHealth());
+            writer.WriteLine(_damage);
+            writer.WriteLine(_gold);
+            for (int i = 0; i < _inventory.Length; i++)
+            {
+                writer.WriteLine(_inventory[i].name);
+                writer.WriteLine(_inventory[i].type);
+                writer.WriteLine(_inventory[i].cost);
+                writer.WriteLine(_inventory[i].level);
+            }
         }
 
         public override bool load(StreamReader reader)
         {
-            return base.load(reader);
-            
+            loader = 1;
+            if (base.load(reader))
+            {
+                for (int i = 0; i < _inventory.Length; i++)
+                {
+                    string weaponName = reader.ReadLine();
+                    string weaponType = reader.ReadLine();
+                    int weaponCost = 0;
+                    int weaponLevel = 0;
+                    if (int.TryParse(reader.ReadLine(), out weaponCost) == false)
+                    {
+                        return false;
+                    }
+                    if (int.TryParse(reader.ReadLine(), out weaponLevel) == false)
+                    {
+                        return false;
+                    }
+                    _inventory[i].name = weaponName;
+                    _inventory[i].type = weaponType;
+                    _inventory[i].cost = weaponCost;
+                    _inventory[i].level = weaponLevel;
+                }
+            }
+
+            return true;
         }
 
         public bool Buy(Item item, int index)
