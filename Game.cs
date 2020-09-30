@@ -10,6 +10,8 @@ namespace HelloWorld
         public string name;
         public string type;
         public int statBoost;
+        public int cost;
+        public int level;
     }
     class Game
     {
@@ -156,42 +158,62 @@ namespace HelloWorld
             _sword.name = "sword";
             _sword.type = "weapon";
             _sword.statBoost = 10;
+            _sword.cost = 5;
+            _sword.level = 1;
 
             _dagger.name = "dagger";
             _dagger.type = "weapon";
             _dagger.statBoost = 10;
+            _dagger.cost = 5;
+            _dagger.level = 1;
 
             _nuke.name = "nuke";
             _nuke.type = "weapon";
             _nuke.statBoost = 10;
+            _nuke.cost = 5;
+            _nuke.level = 1;
 
             _cherryBomb.name = "cherrybomb";
             _cherryBomb.type = "weapon";
             _cherryBomb.statBoost = 10;
+            _cherryBomb.cost = 5;
+            _cherryBomb.level = 1;
 
             _bow.name = "bow";
             _bow.type = "weapon";
             _bow.statBoost = 10;
+            _bow.cost = 5;
+            _bow.level = 1;
 
             _crossBow.name = "crossbow";
             _crossBow.type = "weapon";
             _crossBow.statBoost = 10;
+            _crossBow.cost = 5;
+            _crossBow.level = 1;
 
             _medevilShield.name = "old shield";
             _medevilShield.type = "shield";
             _medevilShield.statBoost = 10;
+            _medevilShield.cost = 5;
+            _medevilShield.level = 1;
 
             _modernShield.name = "blocker";
             _modernShield.type = "shield";
             _modernShield.statBoost = 10;
+            _modernShield.cost = 5;
+            _modernShield.level = 1;
 
             _poision.name = "poision";
             _poision.type = "potion";
             _poision.statBoost = 10;
+            _poision.cost = 5;
+            _poision.level = 1;
 
             _lightning.name = "lightning";
             _lightning.type = "potion";
             _lightning.statBoost = 10;
+            _lightning.cost = 5;
+            _lightning.level = 1;
         }
 
         //give user instructions 
@@ -211,7 +233,6 @@ namespace HelloWorld
                     case '1':
                         {
                             Console.WriteLine("your forever name will be " + name + "!");
-                            _player1 = new Player(name, 100, 10, 3);
                             break;
                         }
                     case '2':
@@ -224,10 +245,19 @@ namespace HelloWorld
             Console.WriteLine("thank you for coming " + name );
             Console.WriteLine("now lets get to it!");
             Console.WriteLine("whole objective survive if you die gameover");
-            GetInput(out input, "yes", "no", "do you need a tutorial?");
+            GetInput(out input, "tutorial", "new game","continue", "what to do?");
             if(input == '1')
             {
                 Tutorial();
+            }
+            else if(input == '2')
+            {
+                _player1 = new Player(name, 100, 10, 10, 3);
+                SelectLoadout((Player)_player1);
+            }
+            else
+            {
+                Load();
             }
 
         }
@@ -239,6 +269,20 @@ namespace HelloWorld
             Console.WriteLine("potion/weapon/shield");
             Console.WriteLine("starting with basic stats boost per item");
         }
+
+        public void Battle(Entity enemy)
+        {
+            while(_player1.IsAlive() && enemy.IsAlive())
+            {
+
+            }
+        }
+
+        public void Explore()
+        {
+            
+        }
+
         //gives the player the option to select a basic loadout
         public void SelectLoadout(Player player)
         {
@@ -293,12 +337,14 @@ namespace HelloWorld
             Console.ReadKey();
             Console.Clear();
         }
+
         public void Save()
         {
             StreamWriter writer = new StreamWriter("SaveData.txt");
             _player1.Save(writer);
             writer.Close();
         }
+
         public void Load()
         {
             StreamReader reader = new StreamReader("SaveData.txt");

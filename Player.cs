@@ -19,10 +19,11 @@ namespace HelloWorld
             _empty.statBoost = 0;
         }
 
-        public Player(string nameVal,int healthVal,int damageVal,int inventorySize) : base(nameVal,healthVal,damageVal)
+        public Player(string nameVal,int healthVal,int damageVal,int gold,int inventorySize) : base(nameVal,healthVal,damageVal,gold)
         {
             _inventory = new Item[inventorySize];
         }
+
         public override void Attack(Entity enemy)
         {
             if (_currentWeapon.name != "empty")
@@ -90,14 +91,32 @@ namespace HelloWorld
             Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
             Console.WriteLine();
         }
+
         public override void Save(StreamWriter writer)
         {
             base.Save(writer);
         }
+
         public override bool load(StreamReader reader)
         {
             return base.load(reader);
             
         }
+
+        public bool Buy(Item item, int index)
+        {
+            if (_gold > item.cost)
+            {
+                _gold -= item.cost;
+                _inventory[index] = item;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("not enough gold");
+                return false;
+            }
+        }
+        
     }
 }

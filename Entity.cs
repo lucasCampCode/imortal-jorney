@@ -9,7 +9,9 @@ namespace HelloWorld
     {
         private string _name;
         private int _health;
+        protected int _gold;
         protected int _damage;
+
 
         public Entity()
         {
@@ -17,12 +19,15 @@ namespace HelloWorld
             _health = 100;
             _damage = 10;
         }
-        public Entity(string nameVal, int healthVal,int damageVal)
+
+        public Entity(string nameVal, int healthVal,int damageVal, int gold)
         {
             _name = nameVal;
             _health = healthVal;
             _damage = damageVal;
+            _gold = gold;
         }
+
         public virtual void Attack(Entity enemy)
         {
             enemy.TakeDamage(_damage);
@@ -57,17 +62,26 @@ namespace HelloWorld
         {
             return _health;
         }
+
+        public void Heal(int healthRestored)
+        {
+            _health += healthRestored;
+        }
+
         public virtual void Save(StreamWriter writer)
         {
             writer.WriteLine(_name);
             writer.WriteLine(_health);
             writer.WriteLine(_damage);
+            writer.WriteLine(_gold);
         }
+
         public virtual bool load(StreamReader reader)
         {
             string name = reader.ReadLine();
             int damage = 0;
             int health = 0;
+            int gold = 0;
             if (int.TryParse(reader.ReadLine(), out health) == false)
             {
                 return false;
@@ -76,9 +90,14 @@ namespace HelloWorld
             {
                 return false;
             }
+            if (int.TryParse(reader.ReadLine(), out gold) == false)
+            {
+                return false;
+            }
             _name = name;
             _damage = damage;
             _health = health;
+            _gold = gold;
             return true;
         }
     }
