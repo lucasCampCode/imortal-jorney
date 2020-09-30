@@ -27,6 +27,15 @@ namespace HelloWorld
             _health = healthVal;
             _damage = damageVal;
             _gold = gold;
+            
+        }
+        public Entity(string nameVal, int healthVal, int damageVal, int gold, Item item)
+        {
+            _name = nameVal;
+            _health = healthVal;
+            _damage = damageVal;
+            _gold = gold;
+            _currentWeapon = item;
         }
 
         public virtual void Attack(Entity enemy)
@@ -102,9 +111,9 @@ namespace HelloWorld
             return true;
         }
 
-        public string GetWeaponType()
+        public Item GetWeapon()
         {
-            return _currentWeapon.type;
+            return _currentWeapon;
         }
     }
 }

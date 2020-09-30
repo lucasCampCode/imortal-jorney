@@ -15,6 +15,8 @@ namespace HelloWorld
     }
     class Game
     {
+        private readonly Random rand = new Random();
+
         private bool _gameOver = false;
         private Entity _player1;
         private Entity _enemy;
@@ -38,6 +40,11 @@ namespace HelloWorld
                 Update();
             }
             End();
+        }
+
+        public int RandomNumber(int min, int max)
+        {
+            return rand.Next(min, max);
         }
 
         //possible ways to take ask a question for the user and return input
@@ -217,9 +224,31 @@ namespace HelloWorld
             _lightning.level = 1;
         }
 
-        public Entity GenEnemy()
+        public Entity GenEnemy(int num,Item item)
         {
-
+            switch (num)
+            {
+                case '1':
+                    {
+                        return _enemy = new Entity("krita", 100, 10, 0, item);
+                    }
+                case '2':
+                    {
+                        return _enemy = new Entity("shima", 100, 10, 0, item);
+                    }
+                case '3':
+                    {
+                        return _enemy = new Entity("kirigami", 100, 10, 0, item);
+                    }
+                case '4':
+                    {
+                        return _enemy = new Entity("echi", 100, 10, 0, item);
+                    }
+                case '5':
+                    {
+                        return _enemy = new Entity("krita", 100, 10, 0, item);
+                    }
+            }
             return _enemy = new Entity();
         }
 
@@ -275,15 +304,19 @@ namespace HelloWorld
             Console.WriteLine("you get to select a loadout that has three classes of items");
             Console.WriteLine("potion/weapon/shield");
             Console.WriteLine("starting with basic stats boost per item");
-            Battle(GenEnemy());
+            Battle(GenEnemy(RandomNumber(1,5)));
         }
 
         public void Battle(Entity enemy)
         {
             Console.WriteLine("you spot an enemy!");
-            if ()
+            if (enemy.GetWeapon().type == "potion")
             {
-
+                Console.WriteLine("the " + enemy.GetName() + "is holding a bottle of" + enemy.GetWeapon().name);
+            }
+            else
+            {
+                Console.WriteLine("the " + enemy.GetName() + "is holding a " + enemy.GetWeapon().name);
             }
             while(_player1.IsAlive() && enemy.IsAlive())
             {

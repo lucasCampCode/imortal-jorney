@@ -8,7 +8,6 @@ namespace HelloWorld
     class Player : Entity
     {
         private Item[] _inventory;
-        
         private Item _empty;
 
         public Player() : base()
