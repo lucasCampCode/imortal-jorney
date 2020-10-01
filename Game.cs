@@ -169,6 +169,28 @@ namespace HelloWorld
                 Console.WriteLine();
             }
         }
+        public void GetInput(out char input, string option1, string option2, string option3, string option4, string option5,string option6, string query)
+        {
+            Console.WriteLine(query);
+            Console.WriteLine("1." + option1);
+            Console.WriteLine("2." + option2);
+            Console.WriteLine("3." + option3);
+            Console.WriteLine("4." + option4);
+            Console.WriteLine("5." + option5);
+            Console.WriteLine("6." + option6);
+            Console.Write("> ");
+
+            input = ' ';
+            while (input != '1' && input != '2' && input != '3' && input != '4' && input != '5' && input != '6')
+            {
+                input = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+                if (input != '1' && input != '2' && input != '3' && input != '4' && input != '5' && input != '6')
+                {
+                    Console.WriteLine("invalid input!");
+                }
+            }
+        }
 
         public void InitItems()
         {
@@ -260,7 +282,7 @@ namespace HelloWorld
             }
         }
 
-        private void OpenShopMenu(Shop shop)
+        private void OpenShopMenu(Shop shop, int shopInstance)
         {
             Console.WriteLine("welcome to the shopping district!");
             Item[] shopInv = shop.Getinventory();
@@ -269,36 +291,65 @@ namespace HelloWorld
             char input;
             int shopIndex = 0;
             int playerIndex = 0;
-
-            GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, "what to buy?");
-            switch (input)
+            if(shopInstance == 1)
             {
-                case '1':
-                    {
-                        shopIndex = 0;
-                        break;
-                    }
-                case '2':
-                    {
-                        shopIndex = 1;
-                        break;
-                    }
-                case '3':
-                    {
-                        shopIndex = 2;
-                        break;
-                    }
-                case '4':
-                    {
-                        shopIndex = 3;
-                        break;
-                    }
+                GetInput(out input, shopInv[0].name, shopInv[1].name, "what to buy?");
+                switch (input)
+                {
+                    case '1':
+                        {
+                            shopIndex = 0;
+                            break;
+                        }
+                    case '2':
+                        {
+                            shopIndex = 1;
+                            break;
+                        }
+                }
+            }
+            else if(shopInstance == 2)
+            {
+                GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, shopInv[5].name, shopInv[5].name, "what to buy?");
+                switch (input)
+                {
+                    case '1':
+                        {
+                            shopIndex = 0;
+                            break;
+                        }
+                    case '2':
+                        {
+                            shopIndex = 1;
+                            break;
+                        }
+                    case '3':
+                        {
+                            shopIndex = 0;
+                            break;
+                        }
+                    case '4':
+                        {
+                            shopIndex = 1;
+                            break;
+                        }
+                    case '5':
+                        {
+                            shopIndex = 0;
+                            break;
+                        }
+                    case '6':
+                        {
+                            shopIndex = 1;
+                            break;
+                        }
+                }
             }
             Console.Clear();
             
             Item[] playerInv = _player1.GetInventory();
             PrintInventory(playerInv);
-            GetInput(out input, playerInv[0].name, playerInv[1].name, playerInv[2].name, playerInv[3].name, "what slot do you want your new weapon in");
+            GetInput(out input, playerInv[0].name, playerInv[1].name, playerInv[2].name, "what slot do you want your new weapon in");
             switch (input)
             {
                 case '1':
@@ -314,11 +365,6 @@ namespace HelloWorld
                 case '3':
                     {
                         playerIndex = 2;
-                        break;
-                    }
-                case '4':
-                    {
-                        playerIndex = 3;
                         break;
                     }
             }
@@ -604,11 +650,11 @@ namespace HelloWorld
             GetInput(out input,"north","east","south","west", "which way to go?");
             if(input == '1')
             {
-                if (num > 9)
+                if (num >= 8)
                 {
-                    OpenShopMenu(_potionShop);
+                    OpenShopMenu(_potionShop,1);
                 }
-                else if (num > 4)
+                else if (num >= 4)
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
@@ -619,11 +665,11 @@ namespace HelloWorld
             }
             else if(input == '2')
             {
-                if (num > 8)
+                if (num >= 7)
                 {
-                    OpenShopMenu(_shieldShop);
+                    OpenShopMenu(_shieldShop,1);
                 }
-                else if (num > 6)
+                else if (num >= 4)
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
@@ -634,11 +680,11 @@ namespace HelloWorld
             }
             else if(input == '3')
             {
-                if(num > 7)
+                if(num >= 6)
                 {
-                    OpenShopMenu(_weaponShop);
+                    OpenShopMenu(_weaponShop,2);
                 }
-                else if (num > 3)
+                else if (num >= 3)
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
@@ -718,6 +764,7 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
+            InitShops();
             InitItems();
             Intro();
             Console.WriteLine("so you know the basics lets throw you in");
