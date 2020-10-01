@@ -195,7 +195,7 @@ namespace HelloWorld
         public void InitItems()
         {
             _empty.name = "nothing";
-            _empty.type = "all";
+            _empty.type = "weapon";
             _empty.statBoost = 0;
             _empty.cost = 0;
             _empty.level = 0;
@@ -310,7 +310,7 @@ namespace HelloWorld
             }
             else if(shopInstance == 2)
             {
-                GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, shopInv[5].name, shopInv[5].name, "what to buy?");
+                GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, shopInv[4].name, shopInv[5].name, "what to buy?");
                 switch (input)
                 {
                     case '1':
@@ -325,22 +325,22 @@ namespace HelloWorld
                         }
                     case '3':
                         {
-                            shopIndex = 0;
+                            shopIndex = 2;
                             break;
                         }
                     case '4':
                         {
-                            shopIndex = 1;
+                            shopIndex = 3;
                             break;
                         }
                     case '5':
                         {
-                            shopIndex = 0;
+                            shopIndex = 4;
                             break;
                         }
                     case '6':
                         {
-                            shopIndex = 1;
+                            shopIndex = 5;
                             break;
                         }
                 }
@@ -371,29 +371,79 @@ namespace HelloWorld
             shop.Sell(_player1, shopIndex, playerIndex);
         }
 
+        //updates weapons to make them stronger everyround the player battles
+        public void UpgradeWeapons(float level)
+        {
+            float upgradeShortRange = level * 5;
+            _sword.statBoost += (int)upgradeShortRange;
+            _sword.cost += 2;
+            _sword.level = (int)level;
+
+            _dagger.statBoost += (int)upgradeShortRange;
+            _dagger.cost += 2;
+            _dagger.level = (int)level;
+
+            float upgradeMediumRange = level * 7.5f;
+            _nuke.statBoost += (int)upgradeMediumRange;
+            _nuke.cost += 10;
+            _nuke.level = (int)level;
+
+            _cherryBomb.statBoost += (int)upgradeMediumRange;
+            _cherryBomb.cost += 10;
+            _cherryBomb.level = (int)level;
+
+            float upgradeLongRange = level * 2.5f;
+            _bow.statBoost += (int)upgradeLongRange;
+            _bow.cost += 4;
+            _bow.level = (int)level;
+
+            _crossBow.statBoost += (int)upgradeLongRange;
+            _crossBow.cost += 4;
+            _crossBow.level = (int)level;
+
+            float upgradeShield = level * 1.5f;
+            _medevilShield.statBoost += (int)upgradeShield;
+            _medevilShield.cost += 15;
+            _medevilShield.level = (int)level;
+
+            _modernShield.statBoost += (int)upgradeShield;
+            _modernShield.cost += 15;
+            _modernShield.level = (int)level;
+
+            float upgradePotion = level * 10;
+            _poision.statBoost += (int)upgradePotion;
+            _poision.cost += 25;
+            _poision.level = (int)level;
+
+            _lightning.statBoost += (int)upgradePotion;
+            _lightning.cost += 25;
+            _lightning.level = (int)level;
+        }
+
+        //generates an enemy for the player to battle against
         public Entity GenEnemy(int num,Item item)
         {
             switch (num)
             {
                 case 1:
                     {
-                        return _enemy = new Entity("krita", 100, 10, 0, item);
+                        return _enemy = new Entity("krita", 100, 10, 10, item);
                     }
                 case 2:
                     {
-                        return _enemy = new Entity("shima", 100, 10, 0, item);
+                        return _enemy = new Entity("shima", 100, 10, 10, item);
                     }
                 case 3:
                     {
-                        return _enemy = new Entity("kirigami", 100, 10, 0, item);
+                        return _enemy = new Entity("kirigami", 100, 10, 10, item);
                     }
                 case 4:
                     {
-                        return _enemy = new Entity("sankai", 100, 10, 0, item);
+                        return _enemy = new Entity("sankai", 100, 10, 10, item);
                     }
                 case 5:
                     {
-                        return _enemy = new Entity("Kamaitachi", 100, 30, 0, item);
+                        return _enemy = new Entity("Kamaitachi", 100, 30, 10, item);
                     }
                 default:
                     {
@@ -403,6 +453,7 @@ namespace HelloWorld
             
         }
 
+        //generates items for each enemy for random possibilities
         public Item GenItem(int num)
         {
             switch (num)
@@ -527,6 +578,7 @@ namespace HelloWorld
             Battle(GenEnemy(RandomNumber(1,5), GenItem(RandomNumber(1, 10))));
         }
 
+        //initates a battle scene where player battles a random enemy
         public void Battle(Entity enemy)
         {
             Console.WriteLine("you spot an enemy!");
@@ -582,7 +634,7 @@ namespace HelloWorld
             }
             _level += percentange;
         }
-
+        //when called asks player what weapon he/she wants to grab
         public void ChangeWeapons(Player player)
         {
             char input;
@@ -617,7 +669,7 @@ namespace HelloWorld
             }
 
         }
-
+        //save progress of game
         public void save()
         {
             StreamWriter writer = new StreamWriter("SaveData.txt");
@@ -626,7 +678,7 @@ namespace HelloWorld
             _enemy.Save(writer);
             writer.Close();
         }
-
+        //loads stats and level for the player
         public bool Load()
         {
             float level = 0;
@@ -642,6 +694,7 @@ namespace HelloWorld
             return true;
         }
 
+        //scene where player wonders a never ending forest to find battle or a shop to upgrade weapons
         public void Explore()
         {
             char input;
@@ -764,8 +817,8 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
-            InitShops();
             InitItems();
+            InitShops();
             Intro();
             Console.WriteLine("so you know the basics lets throw you in");
         }
@@ -777,10 +830,11 @@ namespace HelloWorld
             GetInput(out input, "continue", "quit", "");
             if (input == '1')
             {
+                UpgradeWeapons(_level);
                 for (int i = 0; i < 5; i++)
                 {
                     Explore();
-                    percentange *= 0.01f;
+                    percentange = 0.01f;
                 }
                 
             }

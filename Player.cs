@@ -29,6 +29,7 @@ namespace HelloWorld
             {
                 int totalDamage = _damage + _currentWeapon.statBoost;
                 enemy.TakeDamage(totalDamage);
+                _gold += enemy.GetGold();
             }
             else
             {
