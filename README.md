@@ -27,8 +27,15 @@ input 1-6 using the number keys depending on what question being asked to procce
 #### RandomNumber(int min, int max)
 gives random number using Random in the system functions.
 
-#### GetInput(out char input, string option1, string option2,string query)+6 overloads
-returns input for curtian task that would be asked.
+#### GetInput(out char input, string option1, string option2,string query)
++ GetInput(out char input, string option1, string option2, string option3, string query)
++ GetInput(out char input, string option1, string option2, string option3, string query, bool messUp)
++ GetInput(out char input, string option1, string option2, string option3, string option4, string query)
++ GetInput(out char input, string option1, string option2, string option3, string option4, string query, bool messUp)
++ GetInput(out char input, string option1, string option2, string option3, string option4, string option5, string query)
++ GetInput(out char input, string option1, string option2, string option3, string option4, string option5, string option6, string query)
+  + returns input for curtian task that would be asked.
+  + if needed the messup bool is inteanded if the player intended to unequip all weapons
 
 #### InitItems()
 initilizes items for use throughout the game.
