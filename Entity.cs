@@ -81,11 +81,6 @@ namespace HelloWorld
             return _health;
         }
 
-        public void Heal(int healthRestored)
-        {
-            _health += healthRestored;
-        }
-
         public virtual void Save(StreamWriter writer)
         {
             writer.WriteLine();
@@ -101,7 +96,7 @@ namespace HelloWorld
             
         }
 
-        public virtual bool load(StreamReader reader)
+        public virtual bool Load(StreamReader reader)
         {
 
             reader.ReadLine();

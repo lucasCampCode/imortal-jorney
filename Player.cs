@@ -42,7 +42,7 @@ namespace HelloWorld
             return _inventory;
         }
 
-        public bool contains(int index)
+        public bool Contains(int index)
         {
             if (index >= 0 && index < _inventory.Length)
             {
@@ -53,7 +53,7 @@ namespace HelloWorld
 
         public void EquipItem(int itemIndex)
         {
-            if (contains(itemIndex))
+            if (Contains(itemIndex))
             {
                 _currentWeapon = _inventory[itemIndex];
             }
@@ -101,10 +101,10 @@ namespace HelloWorld
             }
         }
 
-        public override bool load(StreamReader reader)
+        public override bool Load(StreamReader reader)
         {
             loader = 1;
-            if (base.load(reader))
+            if (base.Load(reader))
             {
                 for (int i = 0; i < _inventory.Length; i++)
                 {
