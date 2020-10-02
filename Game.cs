@@ -299,7 +299,8 @@ namespace HelloWorld
             for (int i = 0; i < items.Length; i++)
             {
                 Console.WriteLine("item " + (i + 1) + ": " + items[i].name);
-                Console.WriteLine("cost " + (i + 1) + ": " + items[i].cost);
+                Console.WriteLine("damage boost: " + items[i].statBoost);
+                Console.WriteLine("cost: " + items[i].cost);
             }
         }
 
@@ -534,10 +535,12 @@ namespace HelloWorld
             Console.WriteLine("Good morning and welcome");
             Console.WriteLine("let's start with introductions!");
             Console.WriteLine("What's your name traveler?");
+            Console.Write("> ");
             
             while(input != '1')
             {
                 name = Console.ReadLine();
+                Console.WriteLine();
                 GetInput(out input, "yes", "change it", "do you want to keep this name");
                 switch (input)
                 {
@@ -549,6 +552,7 @@ namespace HelloWorld
                     case '2':
                         {
                             Console.WriteLine("Alright lets change that name of yours");
+                            Console.Write("> ");
                             continue;
                         }
                 }
@@ -586,18 +590,23 @@ namespace HelloWorld
             }
 
         }
+
         //tell  you how to play the game
         public void Tutorial()
         {
             Console.WriteLine("you enter a room bright with an enemy on the other side");
             Console.WriteLine("you get to select a loadout that has three classes of items");
             Console.WriteLine("potion/weapon/shield");
+            Console.WriteLine();
             Console.WriteLine("potions breaks shields");
             Console.WriteLine("shields stops weapons");
-            Console.WriteLine("starting with basic stats boost per item");
             Console.WriteLine("and weapons are stronger than potions");
             Console.WriteLine();
+            Console.WriteLine("starting with basic stats boost per item");
+            Console.WriteLine("all items will increase in damage as you play");
+            Console.WriteLine();
             Battle(GenEnemy(RandomNumber(1,5), GenItem(RandomNumber(1, 10))));
+            Console.WriteLine("when a battle is over you will gain gold to spend at a shop to upgrade your own items");
         }
 
         //initates a battle scene where player battles a random enemy
@@ -644,7 +653,7 @@ namespace HelloWorld
                 }
                 else
                 {
-                    save();
+                    Save();
                 }
 
            
@@ -656,6 +665,7 @@ namespace HelloWorld
             }
             _level += percentange;
         }
+
         //when called asks player what weapon he/she wants to grab
         public void ChangeWeapons(Player player)
         {
@@ -691,8 +701,9 @@ namespace HelloWorld
             }
 
         }
+
         //save progress of game
-        public void save()
+        public void Save()
         {
             StreamWriter writer = new StreamWriter("SaveData.txt");
             writer.WriteLine(_level);
@@ -700,6 +711,7 @@ namespace HelloWorld
             _enemy.Save(writer);
             writer.Close();
         }
+
         //loads stats and level for the player
         public bool Load()
         {
@@ -710,8 +722,8 @@ namespace HelloWorld
                 return false;
             }
             _level = level;
-            _player1.load(reader);
-            _enemy.load(reader);
+            _player1.Load(reader);
+            _enemy.Load(reader);
             reader.Close();
             return true;
         }
@@ -781,7 +793,7 @@ namespace HelloWorld
             }
             else
             {
-                save();
+                Save();
             }
         }
 
@@ -853,7 +865,7 @@ namespace HelloWorld
         {
             InitShops();
             char input;
-            GetInput(out input, "continue", "save & quit", "");
+            GetInput(out input, "continue", "save & quit", "shop have upgraded \n enemies got stronger");
             if (input == '1')
             {
                 UpgradeWeapons(_level);
@@ -870,7 +882,7 @@ namespace HelloWorld
             }
             else
             {
-                save();
+                Save();
                 _gameOver = true;
             }
             
@@ -886,7 +898,7 @@ namespace HelloWorld
             }
             else
             {
-                Console.WriteLine("great you died you lost!");
+                Console.WriteLine("great you died!");
             }
         }
     }
