@@ -9,9 +9,9 @@ namespace HelloWorld
     {
         public string name;
         public string type;
-        public int statBoost;
+        public float statBoost;
         public int cost;
-        public int level;
+        public float level;
     }
     class Game
     {
@@ -38,7 +38,7 @@ namespace HelloWorld
         private Item _poision;
         private Item _lightning;
         private float _level;
-        public float percentange;
+        public float percentange = 2;
 
         //Run the game
         public void Run()
@@ -167,6 +167,27 @@ namespace HelloWorld
             {
                 input = Console.ReadKey().KeyChar;
                 Console.WriteLine();
+            }
+        }
+        public void GetInput(out char input, string option1, string option2, string option3, string option4, string option5, string query)
+        {
+            Console.WriteLine(query);
+            Console.WriteLine("1." + option1);
+            Console.WriteLine("2." + option2);
+            Console.WriteLine("3." + option3);
+            Console.WriteLine("4." + option4);
+            Console.WriteLine("5." + option5);
+            Console.Write("> ");
+
+            input = ' ';
+            while (input != '1' && input != '2' && input != '3' && input != '4' && input != '5')
+            {
+                input = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+                if (input != '1' && input != '2' && input != '3' && input != '4' && input != '5')
+                {
+                    Console.WriteLine("invalid input!");
+                }
             }
         }
         public void GetInput(out char input, string option1, string option2, string option3, string option4, string option5,string option6, string query)
@@ -375,49 +396,49 @@ namespace HelloWorld
         public void UpgradeWeapons(float level)
         {
             float upgradeShortRange = level * 5;
-            _sword.statBoost += (int)upgradeShortRange;
+            _sword.statBoost += upgradeShortRange;
             _sword.cost += 2;
-            _sword.level = (int)level;
+            _sword.level = level;
 
-            _dagger.statBoost += (int)upgradeShortRange;
+            _dagger.statBoost += upgradeShortRange;
             _dagger.cost += 2;
-            _dagger.level = (int)level;
+            _dagger.level = level;
 
             float upgradeMediumRange = level * 7.5f;
-            _nuke.statBoost += (int)upgradeMediumRange;
+            _nuke.statBoost += upgradeMediumRange;
             _nuke.cost += 10;
-            _nuke.level = (int)level;
+            _nuke.level = level;
 
-            _cherryBomb.statBoost += (int)upgradeMediumRange;
+            _cherryBomb.statBoost += upgradeMediumRange;
             _cherryBomb.cost += 10;
-            _cherryBomb.level = (int)level;
+            _cherryBomb.level = level;
 
             float upgradeLongRange = level * 2.5f;
-            _bow.statBoost += (int)upgradeLongRange;
+            _bow.statBoost += upgradeLongRange;
             _bow.cost += 4;
-            _bow.level = (int)level;
+            _bow.level = level;
 
-            _crossBow.statBoost += (int)upgradeLongRange;
+            _crossBow.statBoost += upgradeLongRange;
             _crossBow.cost += 4;
-            _crossBow.level = (int)level;
+            _crossBow.level = level;
 
             float upgradeShield = level * 1.5f;
-            _medevilShield.statBoost += (int)upgradeShield;
+            _medevilShield.statBoost += upgradeShield;
             _medevilShield.cost += 15;
-            _medevilShield.level = (int)level;
+            _medevilShield.level = level;
 
-            _modernShield.statBoost += (int)upgradeShield;
+            _modernShield.statBoost += upgradeShield;
             _modernShield.cost += 15;
-            _modernShield.level = (int)level;
+            _modernShield.level = level;
 
             float upgradePotion = level * 10;
-            _poision.statBoost += (int)upgradePotion;
+            _poision.statBoost += upgradePotion;
             _poision.cost += 25;
-            _poision.level = (int)level;
+            _poision.level = level;
 
-            _lightning.statBoost += (int)upgradePotion;
+            _lightning.statBoost += upgradePotion;
             _lightning.cost += 25;
-            _lightning.level = (int)level;
+            _lightning.level = level;
         }
 
         //generates an enemy for the player to battle against
@@ -535,6 +556,7 @@ namespace HelloWorld
             Console.WriteLine("thank you for coming " + name );
             Console.WriteLine("now lets get to it!");
             Console.WriteLine("whole objective survive if you die gameover");
+            Console.WriteLine();
             GetInput(out input, "tutorial", "new game","continue", "what to do?");
             if(input == '1')
             {
@@ -700,7 +722,7 @@ namespace HelloWorld
             char input;
             int num = RandomNumber(1,10);
             Console.WriteLine("you are found in the forest nothing around you");
-            GetInput(out input,"north","east","south","west", "which way to go?");
+            GetInput(out input,"north","east","south","west","save", "which way to go?");
             if(input == '1')
             {
                 if (num >= 8)
@@ -746,7 +768,7 @@ namespace HelloWorld
                     Console.WriteLine("you end up finding nothing");
                 }
             }
-            else
+            else if(input == '4')
             {   
                 if (num > 5)
                 {
@@ -756,6 +778,10 @@ namespace HelloWorld
                 {
                     Console.WriteLine("you end up finding nothing");
                 }
+            }
+            else
+            {
+                save();
             }
         }
 
@@ -818,7 +844,6 @@ namespace HelloWorld
         public void Start()
         {
             InitItems();
-            InitShops();
             Intro();
             Console.WriteLine("so you know the basics lets throw you in");
         }
@@ -826,20 +851,26 @@ namespace HelloWorld
         //Repeated until the game ends
         public void Update()
         {
+            InitShops();
             char input;
-            GetInput(out input, "continue", "quit", "");
+            GetInput(out input, "continue", "save & quit", "");
             if (input == '1')
             {
                 UpgradeWeapons(_level);
                 for (int i = 0; i < 5; i++)
                 {
                     Explore();
-                    percentange = 0.01f;
+                    if (_player1.IsAlive()== false)
+                    {
+                        break;
+                    }
+                    percentange = 0.5f;
                 }
                 
             }
             else
             {
+                save();
                 _gameOver = true;
             }
             

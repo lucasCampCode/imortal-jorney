@@ -27,7 +27,7 @@ namespace HelloWorld
         {
             if (_currentWeapon.name != "empty")
             {
-                int totalDamage = _damage + _currentWeapon.statBoost;
+                float totalDamage = _damage + _currentWeapon.statBoost;
                 enemy.TakeDamage(totalDamage);
                 _gold += enemy.GetGold();
             }
@@ -42,11 +42,9 @@ namespace HelloWorld
             return _inventory;
         }
 
-        
-
         public bool contains(int index)
         {
-            if (index > 0 && index < _inventory.Length)
+            if (index >= 0 && index < _inventory.Length)
             {
                 return true;
             }
@@ -86,13 +84,6 @@ namespace HelloWorld
             _inventory[to] = _inventory[from];
             RemoveItem(from);
         }
-
-        //public override void PrintStats()
-        //{
-        //    base.PrintStats();
-        //    Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
-        //    Console.WriteLine();
-        //}
 
         public override void Save(StreamWriter writer)
         {

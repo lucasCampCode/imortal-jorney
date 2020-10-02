@@ -49,9 +49,9 @@ namespace HelloWorld
             enemy.TakeDamage(_damage + _currentWeapon.statBoost);
         }
 
-        public virtual void TakeDamage(int damageVal)
+        public virtual void TakeDamage(float damageVal)
         {
-            _health -= damageVal;
+            _health -= (int)damageVal;
             if (IsAlive() == false)
             {
                 _health = 0;
