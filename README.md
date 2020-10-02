@@ -96,7 +96,7 @@ used to identify stats for players and enemies.
 attacks opossing enemy.
 
 #### TakeDamage()
-changes the health to the entity based od damage.
+changes the health to the entity based on damage.
 
 ### Player
 player can interact with shop attack enemies equip items, interact with their own inventory.
