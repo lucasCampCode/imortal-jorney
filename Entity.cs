@@ -15,7 +15,7 @@ namespace HelloWorld
         protected int _damage;
         protected Item _currentWeapon;
 
-
+        //entity original constructor
         public Entity()
         {
             _name = "???";
@@ -24,6 +24,7 @@ namespace HelloWorld
             loader = 0;
         }
 
+        //entity costomized constructor
         public Entity(string nameVal, int healthVal,int damageVal, int gold)
         {
             _name = nameVal;
@@ -34,6 +35,7 @@ namespace HelloWorld
             
         }
 
+        //entity costomized constructor with item
         public Entity(string nameVal, int healthVal, int damageVal, int gold, Item item)
         {
             _name = nameVal;
@@ -44,20 +46,23 @@ namespace HelloWorld
             loader = 0;
         }
 
+        //base entity attack move
         public virtual void Attack(Entity enemy)
         {
             enemy.TakeDamage(_damage + _currentWeapon.statBoost);
         }
 
+        //how enemy takes damage
         public virtual void TakeDamage(float damageVal)
         {
-            _health -= (int)damageVal;
-            if (IsAlive() == false)
+            _health -= (int)damageVal;//take away health base from damage 
+            if (IsAlive() == false) //doesnt make entity health go in the negative
             {
                 _health = 0;
             }
         }
 
+        //prints entity's stats
         public virtual void PrintStats()
         {
             Console.WriteLine("Name: " + _name);
@@ -66,21 +71,25 @@ namespace HelloWorld
             Console.WriteLine();
         }
 
+        //check to see if entity is alive
         public bool IsAlive()
         {
             return _health > 0;
         }
 
+        //return entity's name
         public string GetName()
         {
             return _name;
         }
 
+        //return entity health
         public float GetHealth()
         {
             return _health;
         }
 
+        //save entity's base stats and weapon
         public virtual void Save(StreamWriter writer)
         {
             writer.WriteLine();
@@ -97,6 +106,7 @@ namespace HelloWorld
             
         }
 
+        // load base entity stats and coustom for player entity.
         public virtual bool Load(StreamReader reader)
         {
             if(File.Exists("SaveData.txt") == false)
@@ -154,11 +164,13 @@ namespace HelloWorld
             return true;
         }
 
+        //return the entities weapon
         public Item GetWeapon()
         {
             return _currentWeapon;
         }
 
+        //return the amount of gold entity has
         public int GetGold()
         {
             return _gold;

@@ -38,24 +38,23 @@ namespace HelloWorld
         private Item _poision;
         private Item _lightning;
         private float _level;
-        public float percentange = 2;
+        public float percentange = 0.25f;
 
         //Run the game
         public void Run()
         {
             Start();
-            while(_gameOver == false)
+            while(_gameOver == false)//repeats until game is over
             {
                 Update();
             }
             End();
         }
-
+        //give a random numeber between the min and max numbers
         public int RandomNumber(int min, int max)
         {
             return rand.Next(min, max);
         }
-
         //possible ways to take ask a question for the user and return input
         public void GetInput(out char input, string option1, string option2, string query)
         {
@@ -212,78 +211,79 @@ namespace HelloWorld
                 }
             }
         }
-
+        //initializes weapons
         public void InitItems()
         {
-            _empty.name = "nothing";
+            _empty.name = "nothing";//unequiped item
             _empty.type = "weapon";
             _empty.statBoost = 0;
             _empty.cost = 0;
             _empty.level = 0;
-
+            //sword
             _sword.name = "sword";
             _sword.type = "weapon";
             _sword.statBoost = 10;
             _sword.cost = 5;
             _sword.level = 1;
-
+            //dagger
             _dagger.name = "dagger";
             _dagger.type = "weapon";
             _dagger.statBoost = 10;
             _dagger.cost = 5;
             _dagger.level = 1;
-
+            //nuke "duke nukem"
             _nuke.name = "nuke";
             _nuke.type = "weapon";
             _nuke.statBoost = 10;
             _nuke.cost = 5;
             _nuke.level = 1;
-
+            //cherryBomb
             _cherryBomb.name = "cherrybomb";
             _cherryBomb.type = "weapon";
             _cherryBomb.statBoost = 10;
             _cherryBomb.cost = 5;
             _cherryBomb.level = 1;
-
+            //bow
             _bow.name = "bow";
             _bow.type = "weapon";
             _bow.statBoost = 10;
             _bow.cost = 5;
             _bow.level = 1;
-
+            //crossBow
             _crossBow.name = "crossbow";
             _crossBow.type = "weapon";
             _crossBow.statBoost = 10;
             _crossBow.cost = 5;
             _crossBow.level = 1;
-
+            //magical shield
             _medevilShield.name = "old shield";
             _medevilShield.type = "shield";
             _medevilShield.statBoost = 10;
             _medevilShield.cost = 5;
             _medevilShield.level = 1;
-
+            //tech shield
             _modernShield.name = "blocker";
             _modernShield.type = "shield";
             _modernShield.statBoost = 10;
             _modernShield.cost = 5;
             _modernShield.level = 1;
-
+            //poision potion
             _poision.name = "poision";
             _poision.type = "potion";
             _poision.statBoost = 10;
             _poision.cost = 5;
             _poision.level = 1;
-
+            //lightning potion
             _lightning.name = "lightning";
             _lightning.type = "potion";
             _lightning.statBoost = 10;
             _lightning.cost = 5;
             _lightning.level = 1;
         }
-
+        //initializes shops
         public void InitShops()
         {
+            //potion shop with inventory
             _potionInv = new Item[] {_poision, _lightning};
             _potionShop = new Shop(_potionInv);
 
@@ -293,17 +293,17 @@ namespace HelloWorld
             _shieldInv = new Item[] {_medevilShield, _modernShield};
             _shieldShop = new Shop(_shieldInv);
         }
-
+        //prints inventory for all the shops and player
         public void PrintInventory(Item[] items)
         {
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Length; i++)//repeats this loop till reaches the end of the inventory
             {
-                Console.WriteLine("item " + (i + 1) + ": " + items[i].name);
-                Console.WriteLine("damage boost: " + items[i].statBoost);
-                Console.WriteLine("cost: " + items[i].cost);
+                Console.WriteLine("item " + (i + 1) + ": " + items[i].name);//prints the name of the item
+                Console.WriteLine("damage boost: " + items[i].statBoost);//prints the damage boost fo the item
+                Console.WriteLine("cost: " + items[i].cost);//prints the cost of the item
             }
         }
-
+        //opens shop thatwas identified
         private void OpenShopMenu(Shop shop, int shopInstance)
         {
             Console.WriteLine("welcome to the shopping district!");
@@ -311,86 +311,94 @@ namespace HelloWorld
             PrintInventory(shopInv);
 
             char input;
-            int shopIndex = 0;
-            int playerIndex = 0;
-            if(shopInstance == 1)
+            GetInput(out input, "buy", "skip", "do you want to buy something?");//ask if the want to buy anything
+            if (input == '1')
             {
-                GetInput(out input, shopInv[0].name, shopInv[1].name, "what to buy?");
-                switch (input)
+                int shopIndex = 0;
+                int playerIndex = 0;
+                if (shopInstance == 1)
                 {
-                    case '1':
-                        {
-                            shopIndex = 0;
-                            break;
-                        }
-                    case '2':
-                        {
-                            shopIndex = 1;
-                            break;
-                        }
+                    GetInput(out input, shopInv[0].name, shopInv[1].name, "what to buy?");//asks for want potion/ shields to buy
+                    switch (input)
+                    {
+                        case '1':
+                            {
+                                shopIndex = 0;
+                                break;
+                            }
+                        case '2':
+                            {
+                                shopIndex = 1;
+                                break;
+                            }
+                    }
                 }
-            }
-            else if(shopInstance == 2)
-            {
-                GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, shopInv[4].name, shopInv[5].name, "what to buy?");
+                else if (shopInstance == 2)
+                {
+                    GetInput(out input, shopInv[0].name, shopInv[1].name, shopInv[2].name, shopInv[3].name, shopInv[4].name, shopInv[5].name, "what to buy?");//asks for what weapons to buy
+                    switch (input)
+                    {
+                        case '1':
+                            {
+                                shopIndex = 0;
+                                break;
+                            }
+                        case '2':
+                            {
+                                shopIndex = 1;
+                                break;
+                            }
+                        case '3':
+                            {
+                                shopIndex = 2;
+                                break;
+                            }
+                        case '4':
+                            {
+                                shopIndex = 3;
+                                break;
+                            }
+                        case '5':
+                            {
+                                shopIndex = 4;
+                                break;
+                            }
+                        case '6':
+                            {
+                                shopIndex = 5;
+                                break;
+                            }
+                    }
+                }
+                Console.Clear();
+
+                Item[] playerInv = _player1.GetInventory();
+                PrintInventory(playerInv);
+                GetInput(out input, playerInv[0].name, playerInv[1].name, playerInv[2].name, "what slot do you want your new weapon in");//ask for the inventory slot of the player to put the new weapon in
                 switch (input)
                 {
                     case '1':
                         {
-                            shopIndex = 0;
+                            playerIndex = 0;
                             break;
                         }
                     case '2':
                         {
-                            shopIndex = 1;
+                            playerIndex = 1;
                             break;
                         }
                     case '3':
                         {
-                            shopIndex = 2;
-                            break;
-                        }
-                    case '4':
-                        {
-                            shopIndex = 3;
-                            break;
-                        }
-                    case '5':
-                        {
-                            shopIndex = 4;
-                            break;
-                        }
-                    case '6':
-                        {
-                            shopIndex = 5;
+                            playerIndex = 2;
                             break;
                         }
                 }
+                shop.Sell(_player1, shopIndex, playerIndex);//this is what actually buys the item from the shop and throws it into your inventory
             }
-            Console.Clear();
-            
-            Item[] playerInv = _player1.GetInventory();
-            PrintInventory(playerInv);
-            GetInput(out input, playerInv[0].name, playerInv[1].name, playerInv[2].name, "what slot do you want your new weapon in");
-            switch (input)
+            else
             {
-                case '1':
-                    {
-                        playerIndex = 0;
-                        break;
-                    }
-                case '2':
-                    {
-                        playerIndex = 1;
-                        break;
-                    }
-                case '3':
-                    {
-                        playerIndex = 2;
-                        break;
-                    }
+                Console.WriteLine("you pass up the shopping district");//pass by if player doesnt want to buy
             }
-            shop.Sell(_player1, shopIndex, playerIndex);
         }
 
         //updates weapons to make them stronger everyround the player battles
@@ -541,7 +549,7 @@ namespace HelloWorld
             {
                 name = Console.ReadLine();
                 Console.WriteLine();
-                GetInput(out input, "yes", "change it", "do you want to keep this name");
+                GetInput(out input, "yes", "change it", "do you want to keep this name");//ask if the player want to keep their name
                 switch (input)
                 {
                     case '1':
@@ -561,7 +569,7 @@ namespace HelloWorld
             Console.WriteLine("now lets get to it!");
             Console.WriteLine("whole objective survive if you die gameover");
             Console.WriteLine();
-            GetInput(out input, "tutorial", "new game","continue", "what to do?");
+            GetInput(out input, "tutorial", "new game","continue", "what to do?");//ask if the player wants to learn/create a new game/or start from an old game
             if(input == '1')
             {
                 _player1 = new Player(name, 100, 10, 10, 3);
@@ -583,11 +591,13 @@ namespace HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("load failed \n starting new game");
+                    Console.WriteLine("load failed \nstarting new game");
                     _player1 = new Player(name, 100, 10, 10, 3);
                     SelectLoadout(_player1);
                 }
             }
+            Console.ReadKey();
+            Console.Clear();
 
         }
 
@@ -605,7 +615,7 @@ namespace HelloWorld
             Console.WriteLine("starting with basic stats boost per item");
             Console.WriteLine("all items will increase in damage as you play");
             Console.WriteLine();
-            Battle(GenEnemy(RandomNumber(1,5), GenItem(RandomNumber(1, 10))));
+            Battle(GenEnemy(RandomNumber(1,5), GenItem(RandomNumber(1, 10))));//pre game learning to help them get their bearings
             Console.WriteLine("when a battle is over you will gain gold to spend at a shop to upgrade your own items");
         }
 
@@ -613,7 +623,7 @@ namespace HelloWorld
         public void Battle(Entity enemy)
         {
             Console.WriteLine("you spot an enemy!");
-            if (enemy.GetWeapon().type == "potion")
+            if (enemy.GetWeapon().type == "potion")//changes the prompt based on what the enemy is holding
             {
                 Console.WriteLine("the " + enemy.GetName() + " is holding a bottle of " + enemy.GetWeapon().name);
             }
@@ -622,15 +632,15 @@ namespace HelloWorld
                 Console.WriteLine("the " + enemy.GetName() + " is holding a " + enemy.GetWeapon().name);
             }
             
-            while(_player1.IsAlive() && enemy.IsAlive())
+            while(_player1.IsAlive() && enemy.IsAlive())//checks to see if both player and enemy is alive
             {
-                _player1.PrintStats();
-                enemy.PrintStats();
+                _player1.PrintStats();//print player stats
+                enemy.PrintStats();//prints enemy stats
                 char input;
-                GetInput(out input, "fight","change weapon","save","what do you do?");
+                GetInput(out input, "fight","change weapon","save","what do you do?");//ask the player to fight 
                 if(input == '1')
                 {
-                    if (_player1.GetWeapon().type == "weapon" && enemy.GetWeapon().type == "potion")
+                    if (_player1.GetWeapon().type == "weapon" && enemy.GetWeapon().type == "potion")//checks to see 
                     {
                         _player1.Attack(enemy);
                     }
@@ -714,7 +724,6 @@ namespace HelloWorld
             StreamWriter writer = new StreamWriter("SaveData.txt");
             writer.WriteLine(_level);
             _player1.Save(writer);
-            _enemy.Save(writer);
             writer.Close();
         }
 
@@ -733,7 +742,6 @@ namespace HelloWorld
             }
             _level = level;
             _player1.Load(reader);
-            _enemy.Load(reader);
             reader.Close();
             return true;
         }
@@ -742,61 +750,61 @@ namespace HelloWorld
         public void Explore()
         {
             char input;
-            int num = RandomNumber(1,10);
+            int num = RandomNumber(0,10);
             Console.WriteLine("you are found in the forest nothing around you");
-            GetInput(out input,"north","east","south","west","save", "which way to go?");
+            GetInput(out input,"north","east","south","west","save", "which way to go?");//player decides which way to go
             if(input == '1')
             {
-                if (num >= 9)
+                if (num >= 9)// 2/10 chance to get a shop 
                 {
                     OpenShopMenu(_potionShop,1);
                 }
-                else if (num >= 4)
+                else if (num >= 4)//4/10 chance to run into an enemy
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
-                else
+                else//4/10 chance to find nothing
                 {
                     Console.WriteLine("you end up finding nothing");
                 }
             }
             else if(input == '2')
             {
-                if (num >= 8)
+                if (num >= 8) // 3/10 chance to run into a shop
                 {
                     OpenShopMenu(_shieldShop,1);
                 }
-                else if (num >= 4)
+                else if (num >= 4) // 3/10 chance to run into an enemy
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
-                else
+                else // 4/10 chance to get nothing
                 {
                     Console.WriteLine("you end up finding nothing");
                 }
             }
             else if(input == '3')
             {
-                if(num >= 8)
+                if(num >= 8) // 3/10 chance to run into a shop
                 {
                     OpenShopMenu(_weaponShop,2);
                 }
-                else if (num >= 4)
+                else if (num >= 4) // 3/10 chance to run into an enemy
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
-                else
+                else // 4/10 chance to get nothing
                 {
                     Console.WriteLine("you end up finding nothing");
                 }
             }
             else if(input == '4')
             {   
-                if (num > 5)
+                if (num > 5) // 5/10 chance to run into enemy
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
-                else
+                else // 5/10 chance to find nothing
                 {
                     Console.WriteLine("you end up finding nothing");
                 }
@@ -805,6 +813,8 @@ namespace HelloWorld
             {
                 Save();
             }
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //gives the player the option to select a basic loadout
@@ -831,7 +841,7 @@ namespace HelloWorld
             Console.WriteLine(_modernShield.name);
             Console.WriteLine(_nuke.name);
             char input;
-            GetInput(out input, "loadout 1", "loadout 2","loadout 3","loadout 4", "choose your weapon!");
+            GetInput(out input, "loadout 1", "loadout 2","loadout 3","loadout 4", "choose your Loadout!"); //ask the player for a loadout
             if (input == '1')
             {
                 player.AddItemToInv(_crossBow, 0);
