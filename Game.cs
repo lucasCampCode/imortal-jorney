@@ -399,6 +399,8 @@ namespace HelloWorld
             {
                 Console.WriteLine("you pass up the shopping district");//pass by if player doesnt want to buy
             }
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //updates weapons to make them stronger everyround the player battles
@@ -753,6 +755,7 @@ namespace HelloWorld
             int num = RandomNumber(0,10);
             Console.WriteLine("you are found in the forest nothing around you");
             GetInput(out input,"north","east","south","west","save", "which way to go?");//player decides which way to go
+            Console.Clear();
             if(input == '1')
             {
                 if (num >= 9)// 2/10 chance to get a shop 
@@ -766,6 +769,8 @@ namespace HelloWorld
                 else//4/10 chance to find nothing
                 {
                     Console.WriteLine("you end up finding nothing");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
             else if(input == '2')
@@ -781,6 +786,8 @@ namespace HelloWorld
                 else // 4/10 chance to get nothing
                 {
                     Console.WriteLine("you end up finding nothing");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
             else if(input == '3')
@@ -796,6 +803,8 @@ namespace HelloWorld
                 else // 4/10 chance to get nothing
                 {
                     Console.WriteLine("you end up finding nothing");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
             else if(input == '4')
@@ -807,14 +816,15 @@ namespace HelloWorld
                 else // 5/10 chance to find nothing
                 {
                     Console.WriteLine("you end up finding nothing");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
             else
             {
                 Save();
             }
-            Console.ReadKey();
-            Console.Clear();
+            
         }
 
         //gives the player the option to select a basic loadout
@@ -885,7 +895,7 @@ namespace HelloWorld
         {
             InitShops();
             char input;
-            GetInput(out input, "continue", "save & quit", "shop have upgraded \n enemies got stronger");
+            GetInput(out input, "continue", "save & quit", " ");
             if (input == '1')
             {
                 UpgradeWeapons(_level);
