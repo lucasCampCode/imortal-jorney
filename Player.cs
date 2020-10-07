@@ -29,20 +29,23 @@ namespace HelloWorld
             {
                 float totalDamage = _damage + _currentWeapon.statBoost;
                 enemy.TakeDamage(totalDamage);
-                _gold += enemy.GetGold();
+                
             }
             else
             {
                 base.Attack(enemy);
             }
         }
-
+        public void AddGold(int gold)
+        {
+            _gold += gold;
+        }
         public Item[] GetInventory()
         {
             return _inventory;
         }
 
-        public bool Contains(int index)
+        private bool Contains(int index)
         {
             if (index >= 0 && index < _inventory.Length)
             {
@@ -74,17 +77,6 @@ namespace HelloWorld
             _currentWeapon = _empty;
         }
 
-        public void RemoveItem(int index)
-        {
-            _inventory[index] = _empty;
-        }
-
-        public void MoveItem(int from, int to)
-        {
-            _inventory[to] = _inventory[from];
-            RemoveItem(from);
-        }
-
         public override void Save(StreamWriter writer)
         {
             writer.WriteLine();
@@ -96,6 +88,7 @@ namespace HelloWorld
             {
                 writer.WriteLine(_inventory[i].name);
                 writer.WriteLine(_inventory[i].type);
+                writer.WriteLine(_inventory[i].statBoost);
                 writer.WriteLine(_inventory[i].cost);
                 writer.WriteLine(_inventory[i].level);
             }
@@ -110,8 +103,13 @@ namespace HelloWorld
                 {
                     string weaponName = reader.ReadLine();
                     string weaponType = reader.ReadLine();
+                    int weaponBoost = 0;
                     int weaponCost = 0;
                     int weaponLevel = 0;
+                    if (int.TryParse(reader.ReadLine(), out weaponBoost) == false)
+                    {
+                        return false;
+                    }
                     if (int.TryParse(reader.ReadLine(), out weaponCost) == false)
                     {
                         return false;
@@ -122,6 +120,7 @@ namespace HelloWorld
                     }
                     _inventory[i].name = weaponName;
                     _inventory[i].type = weaponType;
+                    _inventory[i].statBoost = weaponBoost;
                     _inventory[i].cost = weaponCost;
                     _inventory[i].level = weaponLevel;
                 }

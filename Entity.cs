@@ -90,6 +90,7 @@ namespace HelloWorld
             writer.WriteLine(_gold);
             writer.WriteLine(_currentWeapon.name);
             writer.WriteLine(_currentWeapon.type);
+            writer.WriteLine(_currentWeapon.statBoost);
             writer.WriteLine(_currentWeapon.cost);
             writer.WriteLine(_currentWeapon.level);
             
@@ -98,7 +99,10 @@ namespace HelloWorld
 
         public virtual bool Load(StreamReader reader)
         {
-
+            if(File.Exists("SaveData.txt") == false)
+            {
+                return false;
+            }
             reader.ReadLine();
             string name = reader.ReadLine();
             int damage = 0;
@@ -125,8 +129,13 @@ namespace HelloWorld
             {
                 string weaponName = reader.ReadLine();
                 string weaponType = reader.ReadLine();
+                int weaponBoost = 0;
                 int weaponCost = 0;
                 int weaponLevel = 0;
+                if (int.TryParse(reader.ReadLine(), out weaponBoost) == false)
+                {
+                    return false;
+                }
                 if (int.TryParse(reader.ReadLine(), out weaponCost) == false)
                 {
                     return false;
@@ -137,6 +146,7 @@ namespace HelloWorld
                 }
                 _currentWeapon.name = weaponName;
                 _currentWeapon.type = weaponType;
+                _currentWeapon.statBoost = weaponBoost;
                 _currentWeapon.cost = weaponCost;
                 _currentWeapon.level = weaponLevel;
             }

@@ -659,10 +659,16 @@ namespace HelloWorld
            
                 Console.Clear();
             }
+
             if (_player1.IsAlive() == false)
             {
                 _gameOver = true;
             }
+            else
+            {
+                _player1.AddGold(enemy.GetGold());
+            }
+            
             _level += percentange;
         }
 
@@ -715,6 +721,10 @@ namespace HelloWorld
         //loads stats and level for the player
         public bool Load()
         {
+            if (File.Exists("SaveData.txt") == false)
+            {
+                return false;
+            }
             float level = 0;
             StreamReader reader = new StreamReader("SaveData.txt");
             if (float.TryParse(reader.ReadLine(), out level) == false)
@@ -737,7 +747,7 @@ namespace HelloWorld
             GetInput(out input,"north","east","south","west","save", "which way to go?");
             if(input == '1')
             {
-                if (num >= 8)
+                if (num >= 9)
                 {
                     OpenShopMenu(_potionShop,1);
                 }
@@ -752,7 +762,7 @@ namespace HelloWorld
             }
             else if(input == '2')
             {
-                if (num >= 7)
+                if (num >= 8)
                 {
                     OpenShopMenu(_shieldShop,1);
                 }
@@ -767,11 +777,11 @@ namespace HelloWorld
             }
             else if(input == '3')
             {
-                if(num >= 6)
+                if(num >= 8)
                 {
                     OpenShopMenu(_weaponShop,2);
                 }
-                else if (num >= 3)
+                else if (num >= 4)
                 {
                     Battle(GenEnemy(RandomNumber(1, 5), GenItem(RandomNumber(1, 10))));
                 }
