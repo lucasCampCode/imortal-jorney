@@ -407,48 +407,48 @@ namespace HelloWorld
         public void UpgradeWeapons(float level)
         {
             float upgradeShortRange = level * 5;
-            _sword.statBoost += upgradeShortRange;
-            _sword.cost += 2;
+            _sword.statBoost = upgradeShortRange;
+            _sword.cost += 1;
             _sword.level = level;
 
-            _dagger.statBoost += upgradeShortRange;
-            _dagger.cost += 2;
+            _dagger.statBoost = upgradeShortRange;
+            _dagger.cost += 1;
             _dagger.level = level;
 
             float upgradeMediumRange = level * 7.5f;
-            _nuke.statBoost += upgradeMediumRange;
-            _nuke.cost += 10;
+            _nuke.statBoost = upgradeMediumRange;
+            _nuke.cost += 3;
             _nuke.level = level;
 
-            _cherryBomb.statBoost += upgradeMediumRange;
-            _cherryBomb.cost += 10;
+            _cherryBomb.statBoost = upgradeMediumRange;
+            _cherryBomb.cost += 3;
             _cherryBomb.level = level;
 
             float upgradeLongRange = level * 2.5f;
-            _bow.statBoost += upgradeLongRange;
-            _bow.cost += 4;
+            _bow.statBoost = upgradeLongRange;
+            _bow.cost += 2;
             _bow.level = level;
 
-            _crossBow.statBoost += upgradeLongRange;
-            _crossBow.cost += 4;
+            _crossBow.statBoost = upgradeLongRange;
+            _crossBow.cost += 2;
             _crossBow.level = level;
 
             float upgradeShield = level * 1.5f;
-            _medevilShield.statBoost += upgradeShield;
-            _medevilShield.cost += 15;
+            _medevilShield.statBoost = upgradeShield;
+            _medevilShield.cost += 4;
             _medevilShield.level = level;
 
-            _modernShield.statBoost += upgradeShield;
-            _modernShield.cost += 15;
+            _modernShield.statBoost = upgradeShield;
+            _modernShield.cost += 4;
             _modernShield.level = level;
 
             float upgradePotion = level * 10;
-            _poision.statBoost += upgradePotion;
-            _poision.cost += 25;
+            _poision.statBoost = upgradePotion;
+            _poision.cost += 5;
             _poision.level = level;
 
-            _lightning.statBoost += upgradePotion;
-            _lightning.cost += 25;
+            _lightning.statBoost = upgradePotion;
+            _lightning.cost += 5;
             _lightning.level = level;
         }
 
